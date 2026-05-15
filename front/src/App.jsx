@@ -2,81 +2,111 @@ import { useState } from "react";
 import "./App.css";
 
 function App() {
-  const [numero1, setNumero1] = useState("");
-  const [numero2, setNumero2] = useState("");
-  const [operador, setOperador] = useState("+");
-  const [resultado, setResultado] = useState("");
+  const [valor, setValor] = useState("0");
+  const [numeroAnterior, setNumeroAnterior] = useState(null);
+  const [operador, setOperador] = useState(null);
+  const [limparTela, setLimparTela] = useState(false);
+
+  function digitar(numero) {
+    if (valor === "0" || limparTela) {
+      setValor(numero);
+      setLimparTela(false);
+    } else {
+      setValor(valor + numero);
+    }
+  }
+
+  function escolherOperador(op) {
+    setNumeroAnterior(Number(valor));
+    setOperador(op);
+    setLimparTela(true);
+  }
 
   function calcular() {
-    const n1 = Number(numero1);
-    const n2 = Number(numero2);
-
-    let conta;
+    const numeroAtual = Number(valor);
+    let resultado = 0;
 
     switch (operador) {
       case "+":
-        conta = n1 + n2;
+        resultado = numeroAnterior + numeroAtual;
         break;
       case "-":
-        conta = n1 - n2;
+        resultado = numeroAnterior - numeroAtual;
         break;
       case "*":
-        conta = n1 * n2;
+        resultado = numeroAnterior * numeroAtual;
         break;
       case "/":
-        if (n2 === 0) {
-          setResultado("Erro: divisão por zero");
+        if (numeroAtual === 0) {
+          setValor("Erro");
           return;
         }
-        conta = n1 / n2;
-        break;
-      case "^":
-        conta = Math.pow(n1, n2);
-        break;
-      case "raiz":
-        conta = Math.sqrt(n1);
-        break;
-      case "log":
-        conta = Math.log10(n1);
+        resultado = numeroAnterior / numeroAtual;
         break;
       default:
-        conta = "Operador inválido";
+        return;
     }
 
-    setResultado(conta);
+    setValor(String(resultado));
+    setNumeroAnterior(null);
+    setOperador(null);
+  }
+
+  function limpar() {
+    setValor("0");
+    setNumeroAnterior(null);
+    setOperador(null);
+    setLimparTela(false);
+  }
+
+  function raiz() {
+    setValor(String(Math.sqrt(Number(valor))));
+  }
+
+  function potencia2() {
+    setValor(String(Math.pow(Number(valor), 2)));
   }
 
   return (
-    <div className="container">
-      <h1>Calculadora</h1>
+    <div className="calculadora">
+      <div className="topo">
+        <span>☰</span>
+        <h2>Padrão</h2>
+      </div>
 
-      <input
-        type="number"
-        placeholder="Primeiro número"
-        value={numero1}
-        onChange={(e) => setNumero1(e.target.value)}
-      />
+      <div className="display">{valor}</div>
 
-      <select value={operador} onChange={(e) => setOperador(e.target.value)}>
-        <option value="+">Soma</option>
-        <option value="-">Subtração</option>
-        <option value="*">Multiplicação</option>
-        <option value="/">Divisão</option>
-        <option value="^">Potência</option>
-        <option value="raiz">Raiz quadrada</option>
-        <option value="log">Logaritmo</option>
-      </select>
+      <div className="botoes">
+        <button onClick={() => setValor(String(Number(valor) / 100))}>%</button>
+        <button onClick={limpar}>CE</button>
+        <button onClick={limpar}>C</button>
+        <button onClick={() => setValor(valor.slice(0, -1) || "0")}>⌫</button>
 
-      <input
-        type="number"
-        placeholder="Segundo número"
-        value={numero2}
-        onChange={(e) => setNumero2(e.target.value)}
-      />
+        <button onClick={() => setValor(String(1 / Number(valor)))}>1/x</button>
+        <button onClick={potencia2}>x²</button>
+        <button onClick={raiz}>²√x</button>
+        <button onClick={() => escolherOperador("/")}>÷</button>
 
-      <button onClick={calcular}>Calcular</button>
+        <button onClick={() => digitar("7")}>7</button>
+        <button onClick={() => digitar("8")}>8</button>
+        <button onClick={() => digitar("9")}>9</button>
+        <button onClick={() => escolherOperador("*")}>×</button>
 
-      <h2>Resultado: {resultado}</h2>
+        <button onClick={() => digitar("4")}>4</button>
+        <button onClick={() => digitar("5")}>5</button>
+        <button onClick={() => digitar("6")}>6</button>
+        <button onClick={() => escolherOperador("-")}>−</button>
+
+        <button onClick={() => digitar("1")}>1</button>
+        <button onClick={() => digitar("2")}>2</button>
+        <button onClick={() => digitar("3")}>3</button>
+        <button onClick={() => escolherOperador("+")}>+</button>
+
+        <button onClick={() => setValor(String(Number(valor) * -1))}>+/-</button>
+        <button onClick={() => digitar("0")}>0</button>
+        <button onClick={() => digitar(".")}>,</button>
+        <button className="igual" onClick={calcular}>=</button>
+      </div>
     </div>
   );
 }
