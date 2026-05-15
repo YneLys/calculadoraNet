@@ -12,3 +12,4 @@ C:\Users\lorrayne.pinheiro\Documents\projetos\calculadoraNet\calculadoraNet\obj\
 C:\Users\lorrayne.pinheiro\Documents\projetos\calculadoraNet\calculadoraNet\obj\Debug\net8.0\calculadoraNet.pdb
 C:\Users\lorrayne.pinheiro\Documents\projetos\calculadoraNet\calculadoraNet\obj\Debug\net8.0\calculadoraNet.genruntimeconfig.cache
 C:\Users\lorrayne.pinheiro\Documents\projetos\calculadoraNet\calculadoraNet\obj\Debug\net8.0\ref\calculadoraNet.dll
+C:\Users\lorrayne.pinheiro\Documents\projetos\calculadoraNet\calculadoraNet\obj\Debug\net8.0\calculadoraNet.sourcelink.json
